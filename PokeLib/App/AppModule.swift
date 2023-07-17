@@ -6,6 +6,7 @@
 //
 
 import Swinject
+import RxSwift
 
 final class AppModule {
     
@@ -31,17 +32,29 @@ final class AppModule {
     private func buildContainer() -> Container {
         let container = Container()
         
-        // Common
+        // MARK: Common
         container.register(AppService.self) { _ in AppService() }
+        container.register(DisposeBag.self) { _ in DisposeBag() }
         
-        // Service
+        // MARK: Service
         container.register(PokemonService.self) { r in
             PokemonServiceImpl(appService: r.resolve(AppService.self)!)
         }
         
-        // Repository
+        // MARK: Repository
         container.register(PokemonRepository.self) { r in
-            PokemonRepositoryImpl(pokemonService: r.resolve(PokemonService.self)!)
+            PokemonRepositoryImpl(
+                pokemonService: r.resolve(PokemonService.self)!,
+                disposeBag: r.resolve(DisposeBag.self)!
+            )
+        }
+        
+        // MARK: Domain
+        container.register(PokemonUseCase.self) { r in
+            PokemonInteractor(
+                pokemonRepository: r.resolve(PokemonRepository.self)!,
+                disposeBag: r.resolve(DisposeBag.self)!
+            )
         }
         
         return container
