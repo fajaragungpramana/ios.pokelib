@@ -1,20 +1,18 @@
 //
-//  PokemonRequest.swift
+//  PokemonRequestEntity.swift
 //  PokeLib
 //
-//  Created by Fajar Agung Pramana on 03/07/23.
+//  Created by Fajar Agung Pramana on 17/07/23.
 //
-
-import Alamofire
 
 struct PokemonRequest {
     var limit: Int = 25
     var offset: Int = 1
     
-    func create() -> Parameters {
+    func create() -> [String: Any] {
         return [
-            "limit" : limit,
-            "offset" : offset
+            HttpParamConstant.limit.rawValue : limit,
+            HttpParamConstant.offset.rawValue : offset
         ]
     }
 }

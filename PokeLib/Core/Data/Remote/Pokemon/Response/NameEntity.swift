@@ -2,7 +2,7 @@
 //  NameEntity.swift
 //  PokeLib
 //
-//  Created by Fajar Agung Pramana on 03/07/23.
+//  Created by Fajar Agung Pramana on 17/07/23.
 //
 
 struct NameEntity : Codable {

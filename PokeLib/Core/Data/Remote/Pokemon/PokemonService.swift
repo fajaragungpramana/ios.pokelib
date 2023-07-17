@@ -2,41 +2,12 @@
 //  PokemonService.swift
 //  PokeLib
 //
-//  Created by Fajar Agung Pramana on 03/07/23.
+//  Created by Fajar Agung Pramana on 17/07/23.
 //
 
-import Alamofire
+import RxSwift
 
-enum PokemonService : URLRequestConvertible {
-    case getListPokemon(params: Parameters)
-    
-    var method: HTTPMethod {
-        switch self {
-        case .getListPokemon:
-            return .get
-        }
-    }
-    
-    var path: String {
-        switch self {
-        case .getListPokemon:
-            return "pokemon"
-        }
-    }
-    
-    var parameter: Parameters {
-        switch self {
-        case .getListPokemon(let params):
-            return params
-        }
-    }
-    
-    func asURLRequest() throws -> URLRequest {
-        return try AppClient.shared.urlRequest(
-            method: method,
-            path: path,
-            parameters: parameter
-        )
-    }
-    
+protocol PokemonService {
+    func getListPokemon(request: PokemonRequest) -> Observable<AppListResponse<PokemonEntity>>
+    func getPokemon(id: Double?) -> Observable<PokemonEntity>
 }

@@ -12,5 +12,6 @@ target 'PokeLib' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'Swinject'
+  pod 'SwiftLint'
 
 end
