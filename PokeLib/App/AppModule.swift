@@ -66,6 +66,6 @@ final class AppModule {
     let wrappedValue: Dependency
     
     init() {
-        self.wrappedValue = AppInject.shared.container.resolve(Dependency.self)!
+        self.wrappedValue = AppModule.shared.container.resolve(Dependency.self)!
     }
 }
