@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  PokeLib
+
+  Created by Fajar Agung Pramana on 18/07/23.
+  
+*/
+
+"pokemon" = "Pokemon";
+"profile" = "Profil";

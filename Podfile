@@ -6,5 +6,12 @@ target 'PokeLib' do
   use_frameworks!
 
   # Pods for PokeLib
+  pod 'Alamofire'
+  pod 'AlamofireNetworkActivityLogger', '~> 3.4'
+  pod 'NavigationStack'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'Swinject'
+  pod 'SwiftLint'
 
 end
