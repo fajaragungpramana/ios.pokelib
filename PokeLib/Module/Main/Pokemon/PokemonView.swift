@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+import AlamofireNetworkActivityLogger
 
 struct PokemonView : View {
+    
+    @ObservedObject
+    private var mViewModel = PokemonViewModel()
     
     var body: some View {
         
         VStack {
             
+        }.onAppear {
+            NetworkActivityLogger.shared.level = .debug
+            NetworkActivityLogger.shared.startLogging()
         }
         
     }

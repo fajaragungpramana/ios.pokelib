@@ -16,12 +16,12 @@ struct Pokemon {
     
     static func mapToList(data: [PokemonEntity]?) -> [Pokemon] {
         var listPokemon: [Pokemon] = []
-        
         guard let data = data else {
             return []
         }
+        
         for i in 0...data.count - 1 {
-            
+
             if let listStatEntity = data[i].stats {
                 var listStat: [Stat] = []
                 for j in 0...listStatEntity.count - 1 {
@@ -56,7 +56,7 @@ struct Pokemon {
                     )
                 )
             }
-            
+
         }
         
         return listPokemon
