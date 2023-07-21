@@ -44,10 +44,12 @@ struct MainView : View {
             }
             .navigationBarTitle(mSelectedTab == 1 ? "pokemon" : "profile", displayMode: .inline)
             .toolbar {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "heart.fill")
+                if mSelectedTab == 1 {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "heart.fill")
+                    }
                 }
             }
             
