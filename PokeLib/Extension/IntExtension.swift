@@ -7,7 +7,7 @@
 
 extension Int? {
     
-    func onNull() -> Int {
+    var onEmpty: Int {
         guard let value = self else {
             return 0
         }

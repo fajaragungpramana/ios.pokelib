@@ -36,7 +36,8 @@ struct PokemonView : View {
                 
             }
             
-        }.onAppear {
+        }
+        .onAppear {
             NetworkActivityLogger.shared.level = .debug
             NetworkActivityLogger.shared.startLogging()
         }

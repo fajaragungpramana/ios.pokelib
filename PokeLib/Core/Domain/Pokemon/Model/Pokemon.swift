@@ -27,31 +27,31 @@ struct Pokemon {
                 for j in 0...listStatEntity.count - 1 {
                     listStat.append(
                         Stat(
-                            value: listStatEntity[j].baseStat.onNull(),
+                            value: listStatEntity[j].baseStat.onEmpty,
                             name: listStatEntity[j].stat?.name ?? ""
                         )
                     )
                 }
                 listPokemon.append(
                     Pokemon(
-                        id: data[i].id.onNull(),
-                        name: data[i].name.onNull(),
+                        id: data[i].id.onEmpty,
+                        name: data[i].name.onEmpty,
                         image: data[i].sprites?.other?.officialArtwork?.frontDefault ?? "",
                         about: String(localized: "something_wrong"),
-                        height: data[i].height.onNull(),
-                        weight: data[i].weight.onNull(),
+                        height: data[i].height.onEmpty,
+                        weight: data[i].weight.onEmpty,
                         listStat: listStat
                     )
                 )
             } else {
                 listPokemon.append(
                     Pokemon(
-                        id: data[i].id.onNull(),
-                        name: data[i].name.onNull(),
+                        id: data[i].id.onEmpty,
+                        name: data[i].name.onEmpty,
                         image: data[i].sprites?.other?.officialArtwork?.frontDefault ?? "",
                         about: String(localized: "something_wrong"),
-                        height: data[i].height.onNull(),
-                        weight: data[i].weight.onNull(),
+                        height: data[i].height.onEmpty,
+                        weight: data[i].weight.onEmpty,
                         listStat: []
                     )
                 )

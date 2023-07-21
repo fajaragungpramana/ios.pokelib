@@ -42,9 +42,17 @@ struct MainView : View {
                     }
                 
             }
-            .navigationTitle(mSelectedTab == 1 ? "pokemon" : "profile")
+            .navigationBarTitle(mSelectedTab == 1 ? "pokemon" : "profile", displayMode: .inline)
+            .toolbar {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "heart.fill")
+                }
+            }
             
         }
+        .accentColor(.black)
         
     }
     

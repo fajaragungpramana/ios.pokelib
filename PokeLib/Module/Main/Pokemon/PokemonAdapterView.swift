@@ -29,7 +29,7 @@ struct PokemonAdapterView : View {
             .padding(.all, 8)
             .frame(minWidth: 150, minHeight: 150)
             
-            Text(pokemon.name)
+            Text(pokemon.name.capitalizedSentence)
                 .padding(.vertical, 8)
                 .bold()
             

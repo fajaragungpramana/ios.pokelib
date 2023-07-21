@@ -7,7 +7,7 @@
 
 extension Double? {
     
-    func onNull() -> Double {
+    var onEmpty: Double {
         guard let value = self else {
             return 0
         }
