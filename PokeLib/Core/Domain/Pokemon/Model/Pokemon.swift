@@ -6,13 +6,13 @@
 //
 
 struct Pokemon {
-    var id: Double?
-    var name: String?
-    var image: String?
-    var about: String?
-    var height: Int?
-    var weight: Int?
-    var listStat: [Stat]?
+    var id: Double
+    var name: String
+    var image: String
+    var about: String
+    var height: Int
+    var weight: Int
+    var listStat: [Stat]
     
     static func mapToList(data: [PokemonEntity]?) -> [Pokemon] {
         var listPokemon: [Pokemon] = []
@@ -27,32 +27,32 @@ struct Pokemon {
                 for j in 0...listStatEntity.count - 1 {
                     listStat.append(
                         Stat(
-                            value: listStatEntity[j].baseStat,
-                            name: listStatEntity[j].stat?.name
+                            value: listStatEntity[j].baseStat.onNull(),
+                            name: listStatEntity[j].stat?.name ?? ""
                         )
                     )
                 }
                 listPokemon.append(
                     Pokemon(
-                        id: data[i].id,
-                        name: data[i].name,
-                        image: data[i].sprites?.other?.officialArtwork?.frontDefault,
-                        about: nil,
-                        height: data[i].height,
-                        weight: data[i].weight,
+                        id: data[i].id.onNull(),
+                        name: data[i].name.onNull(),
+                        image: data[i].sprites?.other?.officialArtwork?.frontDefault ?? "",
+                        about: String(localized: "something_wrong"),
+                        height: data[i].height.onNull(),
+                        weight: data[i].weight.onNull(),
                         listStat: listStat
                     )
                 )
             } else {
                 listPokemon.append(
                     Pokemon(
-                        id: data[i].id,
-                        name: data[i].name,
-                        image: data[i].sprites?.other?.officialArtwork?.frontDefault,
-                        about: nil,
-                        height: data[i].height,
-                        weight: data[i].weight,
-                        listStat: nil
+                        id: data[i].id.onNull(),
+                        name: data[i].name.onNull(),
+                        image: data[i].sprites?.other?.officialArtwork?.frontDefault ?? "",
+                        about: String(localized: "something_wrong"),
+                        height: data[i].height.onNull(),
+                        weight: data[i].weight.onNull(),
+                        listStat: []
                     )
                 )
             }
