@@ -23,9 +23,36 @@ struct DetailPokemonView : View {
     
     var body: some View {
         
-        VStack {
+        VStack(alignment: .center) {
             
+            AsyncImage(
+                url: URL(string: pokemon.image),
+                content: { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                },
+                placeholder: {
+                    ProgressView()
+                }
+            )
+            .frame(width: 150, height: 150)
             
+            HStack {
+                
+                Image(DrawableResource.weightBlack.rawValue)
+                    .renderingMode(.template)
+                
+                Text("\(pokemon.weight) KG")
+                    .font(.caption)
+                
+                Image(DrawableResource.rulerBlack.rawValue)
+                    .renderingMode(.template)
+                
+                Text("\(pokemon.height) M")
+                    .font(.caption)
+                
+            }
             
         }
         .navigationBarBackButtonHidden(true)

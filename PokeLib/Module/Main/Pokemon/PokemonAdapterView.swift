@@ -10,7 +10,6 @@ import SwiftUI
 struct PokemonAdapterView : View {
     
     var pokemon: Pokemon
-    var onClickListener: (Pokemon) -> ()
     
     var body: some View {
         
@@ -44,9 +43,6 @@ struct PokemonAdapterView : View {
             x: 0,
             y: 2
         )
-        .onTapGesture {
-            onClickListener(pokemon)
-        }
         
     }
     

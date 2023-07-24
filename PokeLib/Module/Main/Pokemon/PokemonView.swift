@@ -30,14 +30,10 @@ struct PokemonView : View {
                     
                     ForEach(self.mViewModel.listPokemon, id: \.id) { pokemon in
                         
-                        PokemonAdapterView(
-                            pokemon: pokemon,
-                            onClickListener: { pokemon in
-                                mIsDetailPokemonClick = true
-                            }
-                        )
-                        .navigationDestination(isPresented: $mIsDetailPokemonClick) {
+                        NavigationLink {
                             DetailPokemonView(pokemon: pokemon)
+                        } label: {
+                            PokemonAdapterView(pokemon: pokemon)
                         }
                         
                     }
