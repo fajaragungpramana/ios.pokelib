@@ -13,6 +13,8 @@ struct PokemonView : View {
     @ObservedObject
     private var mViewModel = PokemonViewModel()
     
+    @State private var mIsDetailPokemonClick: Bool = false
+    
     private var mFlexibleGridItems: [GridItem] = [
         .init(.adaptive(minimum: 190, maximum: 360)),
         .init(.adaptive(minimum: 190, maximum: 360))
@@ -28,7 +30,15 @@ struct PokemonView : View {
                     
                     ForEach(self.mViewModel.listPokemon, id: \.id) { pokemon in
                         
-                        PokemonAdapterView(pokemon: pokemon)
+                        PokemonAdapterView(
+                            pokemon: pokemon,
+                            onClickListener: { pokemon in
+                                mIsDetailPokemonClick = true
+                            }
+                        )
+                        .navigationDestination(isPresented: $mIsDetailPokemonClick) {
+                            DetailPokemonView(pokemon: pokemon)
+                        }
                         
                     }
                     
