@@ -39,7 +39,7 @@ struct DetailPokemonView : View {
                     ProgressView()
                 }
             )
-            .frame(width: 150, height: 150)
+            .frame(width: 180, height: 180)
             
             HStack {
                 
@@ -56,9 +56,12 @@ struct DetailPokemonView : View {
                     .font(.caption)
                 
             }
+            .padding(.vertical, 8)
             
             Text(mViewModel.pokemonSpecies.about)
                 .font(.body)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 8)
             
         }
         .onAppear {
