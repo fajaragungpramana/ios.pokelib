@@ -15,4 +15,12 @@ extension Double? {
         return value
     }
     
+    var roundAsString: String {
+        guard let value = self else {
+            return "0"
+        }
+        
+        return String(format: "%.0f", value)
+    }
+    
 }

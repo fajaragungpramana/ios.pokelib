@@ -11,6 +11,9 @@ struct DetailPokemonView : View {
     
     @Environment(\.presentationMode) private var mPresentationMode: Binding<PresentationMode>
     
+    @ObservedObject
+    private var mViewModel: DetailPokemonViewModel = DetailPokemonViewModel()
+    
     var pokemon: Pokemon
     
     var backButton: some View {
@@ -54,6 +57,12 @@ struct DetailPokemonView : View {
                 
             }
             
+            Text(mViewModel.pokemonSpecies.about)
+                .font(.body)
+            
+        }
+        .onAppear {
+            mViewModel.getPokemonSpecies(id: pokemon.id)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)

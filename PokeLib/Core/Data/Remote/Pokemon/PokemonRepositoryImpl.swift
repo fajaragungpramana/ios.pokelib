@@ -34,14 +34,15 @@ class PokemonRepositoryImpl : PokemonRepository {
                                 let urlPath = AppRoute.shared.baseUrl + HttpRouteConstant.pokemon.rawValue + "/"
                                 let id = pokemonEntity.url?
                                     .replacingOccurrences(of: urlPath, with: "")
-                                    .replacingOccurrences(of: "/", with: "") ?? "0"
+                                    .replacingOccurrences(of: "/", with: "")
+                                    .toDouble
                                 
-                                self.mPokemonService.getPokemon(id: Double(id))
+                                self.mPokemonService.getPokemon(id: id)
                                     .observe(on: MainScheduler.instance)
                                     .subscribe(
                                         onNext: { pokemonEntity in
                                             var pokemonEntity = pokemonEntity
-                                            pokemonEntity.id = Double(id)
+                                            pokemonEntity.id = id
                                 
                                             listPokemonEntity.append(pokemonEntity)
                                             
@@ -65,6 +66,10 @@ class PokemonRepositoryImpl : PokemonRepository {
                 task.cancel()
             }
         }
+    }
+    
+    func getPokemonSpecies(id: Double?) -> Observable<PokemonSpeciesEntity> {
+        return mPokemonService.getPokemonSpecies(id: id)
     }
     
 }

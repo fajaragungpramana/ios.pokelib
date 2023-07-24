@@ -9,4 +9,5 @@ import RxSwift
 
 protocol PokemonUseCase {
     func getListPokemon(request: PokemonRequest) -> Observable<[Pokemon]>
+    func getPokemonSpecies(id: Double?) -> Observable<PokemonSpecies>
 }

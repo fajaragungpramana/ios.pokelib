@@ -10,10 +10,11 @@ import Alamofire
 enum PokemonRoute : URLRequestConvertible {
     case getListPokemon(Parameters)
     case getPokemon(Double?)
+    case getPokemonSpecies(Double?)
     
     var method: HTTPMethod {
         switch self {
-        case .getListPokemon, .getPokemon:
+        case .getListPokemon, .getPokemon, .getPokemonSpecies:
             return .get
         }
     }
@@ -23,7 +24,9 @@ enum PokemonRoute : URLRequestConvertible {
         case .getListPokemon:
             return HttpRouteConstant.pokemon.rawValue
         case .getPokemon(let id):
-            return HttpRouteConstant.pokemon.rawValue + "/" + String(format: "%.0f", id ?? 0)
+            return HttpRouteConstant.pokemon.rawValue + "/" + id.roundAsString
+        case .getPokemonSpecies(let id):
+            return HttpRouteConstant.pokemonSpecies.rawValue + "/" + id.roundAsString
         }
     }
     

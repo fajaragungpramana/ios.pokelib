@@ -40,4 +40,26 @@ class PokemonInteractor : PokemonUseCase {
         }
     }
     
+    func getPokemonSpecies(id: Double?) -> Observable<PokemonSpecies> {
+        return Observable<PokemonSpecies>.create { observer in
+            let task = Task {
+                self.mPokemonRepository.getPokemonSpecies(id: id)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(
+                        onNext: { listPokemonSpecies in
+                            observer.on(.next(PokemonSpecies.mapToObject(data: listPokemonSpecies)))
+                            observer.on(.completed)
+                        },
+                        onError: { error in
+                            observer.on(.error(error))
+                        }
+                    )
+            }
+            
+            return Disposables.create {
+                task.cancel()
+            }
+        }
+    }
+    
 }
