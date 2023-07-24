@@ -22,20 +22,16 @@ struct PokemonView : View {
     
     var body: some View {
         
-        VStack {
+        ScrollView(.vertical, showsIndicators: false) {
             
-            ScrollView(.vertical, showsIndicators: false) {
+            LazyVGrid(columns: mFlexibleGridItems) {
                 
-                LazyVGrid(columns: mFlexibleGridItems) {
+                ForEach(self.mViewModel.listPokemon, id: \.id) { pokemon in
                     
-                    ForEach(self.mViewModel.listPokemon, id: \.id) { pokemon in
-                        
-                        NavigationLink {
-                            DetailPokemonView(pokemon: pokemon)
-                        } label: {
-                            PokemonAdapterView(pokemon: pokemon)
-                        }
-                        
+                    NavigationLink {
+                        DetailPokemonView(pokemon: pokemon)
+                    } label: {
+                        PokemonAdapterView(pokemon: pokemon)
                     }
                     
                 }

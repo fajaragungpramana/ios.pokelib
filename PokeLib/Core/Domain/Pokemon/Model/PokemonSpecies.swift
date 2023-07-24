@@ -16,7 +16,7 @@ struct PokemonSpecies {
         }
         
         return PokemonSpecies(
-            about: flavorTextEntries[0].flavorText.onEmpty.replacingOccurrences(of: "\n", with: " ")
+            about: flavorTextEntries[0].flavorText.onEmpty
         )
     }
 }

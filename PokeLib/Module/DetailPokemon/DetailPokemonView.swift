@@ -13,8 +13,17 @@ struct DetailPokemonView : View {
     
     @ObservedObject
     private var mViewModel: DetailPokemonViewModel = DetailPokemonViewModel()
+
+    private var mFlexibleGridItems: [GridItem] = [
+        .init(.adaptive(minimum: 150, maximum: 300)),
+        .init(.adaptive(minimum: 150, maximum: 300)),
+        .init(.adaptive(minimum: 150, maximum: 300))
+    ]
     
     var pokemon: Pokemon
+    init(pokemon: Pokemon) {
+        self.pokemon = pokemon
+    }
     
     var backButton: some View {
         Button {
@@ -26,42 +35,56 @@ struct DetailPokemonView : View {
     
     var body: some View {
         
-        VStack(alignment: .center) {
+        ScrollView(.vertical, showsIndicators: false) {
             
-            AsyncImage(
-                url: URL(string: pokemon.image),
-                content: { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                },
-                placeholder: {
-                    ProgressView()
+            VStack(alignment: .center) {
+                
+                AsyncImage(
+                    url: URL(string: pokemon.image),
+                    content: { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    },
+                    placeholder: {
+                        ProgressView()
+                    }
+                )
+                .frame(width: 180, height: 180)
+                
+                HStack {
+                    
+                    Image(DrawableResource.weightBlack.rawValue)
+                        .renderingMode(.template)
+                    
+                    Text("\(pokemon.weight) KG")
+                        .font(.caption)
+                    
+                    Image(DrawableResource.rulerBlack.rawValue)
+                        .renderingMode(.template)
+                    
+                    Text("\(pokemon.height) M")
+                        .font(.caption)
+                    
                 }
-            )
-            .frame(width: 180, height: 180)
-            
-            HStack {
+                .padding(.vertical, 8)
                 
-                Image(DrawableResource.weightBlack.rawValue)
-                    .renderingMode(.template)
+                Text(mViewModel.pokemonSpecies.about)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
                 
-                Text("\(pokemon.weight) KG")
-                    .font(.caption)
-                
-                Image(DrawableResource.rulerBlack.rawValue)
-                    .renderingMode(.template)
-                
-                Text("\(pokemon.height) M")
-                    .font(.caption)
+                LazyVGrid(columns: mFlexibleGridItems) {
+                    
+                    ForEach(self.pokemon.listStat, id: \.name) { stat in
+                        
+                        DetailPokemonStatAdapterView(stat: stat)
+                        
+                    }
+                    
+                }
                 
             }
-            .padding(.vertical, 8)
-            
-            Text(mViewModel.pokemonSpecies.about)
-                .font(.body)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 8)
             
         }
         .onAppear {

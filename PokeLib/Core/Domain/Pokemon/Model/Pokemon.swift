@@ -28,7 +28,7 @@ struct Pokemon {
                     listStat.append(
                         Stat(
                             value: listStatEntity[j].baseStat.onEmpty,
-                            name: listStatEntity[j].stat?.name ?? ""
+                            name: listStatEntity[j].stat?.onMapStat() ?? ""
                         )
                     )
                 }
