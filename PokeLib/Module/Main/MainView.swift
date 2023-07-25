@@ -10,6 +10,7 @@ import SwiftUI
 struct MainView : View {
     
     @State private var mSelectedTab = 1
+    @State private var isNavigateToFavorite = false
     
     init() {
         setTabViewAppearance()
@@ -46,9 +47,12 @@ struct MainView : View {
             .toolbar {
                 if mSelectedTab == 1 {
                     Button {
-                        
+                        isNavigateToFavorite = true
                     } label: {
                         Image(systemName: "heart.fill")
+                    }
+                    .navigationDestination(isPresented: $isNavigateToFavorite) {
+                        FavoritePokemonView()
                     }
                 }
             }
