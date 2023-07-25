@@ -11,10 +11,12 @@ import RxSwift
 class PokemonInteractor : PokemonUseCase {
     
     private let mPokemonRepository: PokemonRepository
+    private let mFavoritePokemonRepository: FavoritePokemonRepository
     private let mDisposeBag: DisposeBag
     
-    init(pokemonRepository: PokemonRepository, disposeBag: DisposeBag) {
+    init(pokemonRepository: PokemonRepository, favoritePokemonRepository: FavoritePokemonRepository, disposeBag: DisposeBag) {
         self.mPokemonRepository = pokemonRepository
+        self.mFavoritePokemonRepository = favoritePokemonRepository
         self.mDisposeBag = disposeBag
     }
     
@@ -60,6 +62,14 @@ class PokemonInteractor : PokemonUseCase {
                 task.cancel()
             }
         }
+    }
+    
+    func setFavoritePokemon(request: FavoritePokemonRequest) -> Observable<Bool> {
+        return self.mFavoritePokemonRepository.setPokemonFavorite(request: request)
+    }
+    
+    func isFavoritePokemon(id: Double) -> Observable<Bool> {
+        return self.mFavoritePokemonRepository.isPokemonFavorite(id: id)
     }
     
 }
