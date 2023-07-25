@@ -7,4 +7,5 @@
 
 enum HttpRouteConstant : String {
     case pokemon = "pokemon"
+    case pokemonSpecies = "pokemon-species"
 }

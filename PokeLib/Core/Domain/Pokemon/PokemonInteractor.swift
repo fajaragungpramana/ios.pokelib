@@ -18,22 +18,48 @@ class PokemonInteractor : PokemonUseCase {
         self.mDisposeBag = disposeBag
     }
     
-    func getListPokemon(request: PokemonRequest) -> BehaviorRelay<AppResult<[Pokemon]>> {
-        let result = BehaviorRelay<AppResult<[Pokemon]>>(value: .OnLoading(true))
-        self.mPokemonRepository.getListPokemon(request: request).subscribe { event in
-            let state = event.element
-            switch state {
-            case .OnLoading(let isLoading):
-                result.accept(AppResult.OnLoading(isLoading))
-            case .OnSuccess(let listPokemonEntity):
-                result.accept(AppResult.OnSuccess(Pokemon.mapToList(data: listPokemonEntity)))
-            case .OnFailure(let error):
-                result.accept(AppResult.OnFailure(error))
-            default:
-                break
+    func getListPokemon(request: PokemonRequest) -> Observable<[Pokemon]> {
+        return Observable<[Pokemon]>.create { observer in
+            let task = Task {
+                self.mPokemonRepository.getListPokemon(request: request)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(
+                        onNext: { listPokemonEntity in
+                            observer.on(.next(Pokemon.mapToList(data: listPokemonEntity)))
+                            observer.on(.completed)
+                        },
+                        onError: { error in
+                            observer.on(.error(error))
+                        }
+                    ).disposed(by: self.mDisposeBag)
+            }
+            
+            return Disposables.create {
+                task.cancel()
             }
         }
-        return result
+    }
+    
+    func getPokemonSpecies(id: Double?) -> Observable<PokemonSpecies> {
+        return Observable<PokemonSpecies>.create { observer in
+            let task = Task {
+                self.mPokemonRepository.getPokemonSpecies(id: id)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(
+                        onNext: { listPokemonSpecies in
+                            observer.on(.next(PokemonSpecies.mapToObject(data: listPokemonSpecies)))
+                            observer.on(.completed)
+                        },
+                        onError: { error in
+                            observer.on(.error(error))
+                        }
+                    )
+            }
+            
+            return Disposables.create {
+                task.cancel()
+            }
+        }
     }
     
 }
