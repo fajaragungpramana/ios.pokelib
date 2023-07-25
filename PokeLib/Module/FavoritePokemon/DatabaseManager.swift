@@ -9,18 +9,22 @@ import SQLite
 
 class DatabaseManager {
     
-    private static var TABLE_NAME = "favorite_pokemons.sqlite3"
+    private static var DATABASE_NAME = "favorite_pokemons.sqlite3"
     
     private var mDb: Connection!
     private var mFavoritePokemonTable: Table!
+    private var mFavoriteStatTable: Table!
+    
     private var mFavoritePokemonSchema: FavoritePokemonSchema!
+    private var mFavoriteStatSchema: FavoriteStatSchema!
     
     init() {
         do {
             
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-            self.mDb = try Connection("\(path)/\(DatabaseManager.TABLE_NAME)")
+            self.mDb = try Connection("\(path)/\(DatabaseManager.DATABASE_NAME)")
             self.mFavoritePokemonTable = Table("pokemons")
+            self.mFavoriteStatTable = Table("stats")
             
             self.mFavoritePokemonSchema = FavoritePokemonSchema(
                 id: Expression<Double>("id"),
@@ -29,6 +33,12 @@ class DatabaseManager {
                 about: Expression<String>("about"),
                 height: Expression<Int>("height"),
                 weight: Expression<Int>("weight")
+            )
+            self.mFavoriteStatSchema = FavoriteStatSchema(
+                id: Expression<Int64>("id"),
+                pokemonId: Expression<Double>("pokemon_id"),
+                name: Expression<String>("name"),
+                value: Expression<Int>("value")
             )
             
             if !CacheManager.shared.isDatabaseManagerCreated {
@@ -39,6 +49,13 @@ class DatabaseManager {
                     t.column(self.mFavoritePokemonSchema.about)
                     t.column(self.mFavoritePokemonSchema.height)
                     t.column(self.mFavoritePokemonSchema.weight)
+                })
+                
+                try mDb.run(self.mFavoriteStatTable.create { t in
+                    t.column(self.mFavoriteStatSchema.id, primaryKey: .autoincrement)
+                    t.column(self.mFavoriteStatSchema.pokemonId)
+                    t.column(self.mFavoriteStatSchema.name)
+                    t.column(self.mFavoriteStatSchema.value)
                 })
                 
                 CacheManager.shared.isDatabaseManagerCreated = true
@@ -63,6 +80,14 @@ class DatabaseManager {
                 self.mFavoritePokemonSchema.height <- request.height,
                 self.mFavoritePokemonSchema.weight <- request.weight
             ))
+            
+            try request.listStat.forEach { stat in
+                try self.mDb.run(self.mFavoriteStatTable.insert(
+                    self.mFavoriteStatSchema.pokemonId <- request.id,
+                    self.mFavoriteStatSchema.name <- stat.name,
+                    self.mFavoriteStatSchema.value <- stat.value
+                ))
+            }
         } catch {
             print("DatabaseManager.setFavoritePokemon : " + error.localizedDescription)
             
@@ -97,8 +122,12 @@ class DatabaseManager {
     
     func deleteFavoritePokemon(id: Double) throws -> Bool {
         let pokemon = self.mFavoritePokemonTable.filter(self.mFavoritePokemonSchema.id == id)
+        let stat = self.mFavoriteStatTable.filter(self.mFavoriteStatSchema.pokemonId == id)
         do {
-            return try self.mDb.run(pokemon.delete()) > 0
+            let deletePokemon = try self.mDb.run(pokemon.delete())
+            let deleteStat = try self.mDb.run(stat.delete())
+            
+            return deletePokemon > 0 && deleteStat > 0
         } catch {
             print("DatabaseManager.deleteFavoritePokemon : " + error.localizedDescription)
             

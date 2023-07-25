@@ -12,4 +12,5 @@ struct FavoritePokemonRequest {
     var about: String
     var height: Int
     var weight: Int
+    var listStat: [FavoriteStatRequest]
 }

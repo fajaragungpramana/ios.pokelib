@@ -99,6 +99,16 @@ struct DetailPokemonView : View {
                 if mViewModel.isFavoritePokemon {
                     mViewModel.deleteFavoritePokemon(id: pokemon.id)
                 } else {
+                    var listFavoriteStatRequest: [FavoriteStatRequest] = []
+                    pokemon.listStat.forEach { stat in
+                        listFavoriteStatRequest.append(
+                            FavoriteStatRequest(
+                                name: stat.name,
+                                value: stat.value
+                            )
+                        )
+                    }
+                    
                     mViewModel.setFavoritePokemon(
                         request: FavoritePokemonRequest(
                             id: pokemon.id,
@@ -106,7 +116,8 @@ struct DetailPokemonView : View {
                             image: pokemon.image,
                             about: pokemon.about,
                             height: pokemon.height,
-                            weight: pokemon.weight
+                            weight: pokemon.weight,
+                            listStat: listFavoriteStatRequest
                         )
                     )
                 }

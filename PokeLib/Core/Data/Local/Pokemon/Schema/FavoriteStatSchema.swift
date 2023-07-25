@@ -8,6 +8,8 @@
 import SQLite
 
 struct FavoriteStatSchema {
-    var name: Expression<String>?
-    var value: Expression<Int>?
+    var id: Expression<Int64>
+    var pokemonId: Expression<Double>
+    var name: Expression<String>
+    var value: Expression<Int>
 }
