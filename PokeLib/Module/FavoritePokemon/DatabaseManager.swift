@@ -51,30 +51,30 @@ class DatabaseManager {
     
     func setFavoritePokemon(request: FavoritePokemonRequest) throws -> Bool {
         do {
-            if try getFavoritePokemon(id: request.id).isEmpty {
-                try self.mDb.run(self.mFavoritePokemonTable.insert(
-                    self.mFavoritePokemonSchema.id <- request.id,
-                    self.mFavoritePokemonSchema.name <- request.name,
-                    self.mFavoritePokemonSchema.image <- request.image,
-                    self.mFavoritePokemonSchema.about <- request.about,
-                    self.mFavoritePokemonSchema.height <- request.height,
-                    self.mFavoritePokemonSchema.weight <- request.weight
-                ))
-                
-                return true
+            if try !getFavoritePokemon(id: request.id).isEmpty {
+                return false
             }
             
-            return false
+            try self.mDb.run(self.mFavoritePokemonTable.insert(
+                self.mFavoritePokemonSchema.id <- request.id,
+                self.mFavoritePokemonSchema.name <- request.name,
+                self.mFavoritePokemonSchema.image <- request.image,
+                self.mFavoritePokemonSchema.about <- request.about,
+                self.mFavoritePokemonSchema.height <- request.height,
+                self.mFavoritePokemonSchema.weight <- request.weight
+            ))
         } catch {
             print("DatabaseManager.setFavoritePokemon : " + error.localizedDescription)
             
             return false
         }
+        
+        return true
     }
     
     func getFavoritePokemon(id: Double) throws -> [FavoritePokemonEntity] {
         var listFavoritePokemonEntity: [FavoritePokemonEntity] = []
-        let query = self.mFavoritePokemonTable.order(id)
+        let query = self.mFavoritePokemonTable.filter(self.mFavoritePokemonSchema.id == id)
         do {
             
             for pokemon in try self.mDb.prepare(query) {
@@ -93,6 +93,17 @@ class DatabaseManager {
         }
         
         return listFavoritePokemonEntity
+    }
+    
+    func deleteFavoritePokemon(id: Double) throws -> Bool {
+        let pokemon = self.mFavoritePokemonTable.filter(self.mFavoritePokemonSchema.id == id)
+        do {
+            return try self.mDb.run(pokemon.delete()) > 0
+        } catch {
+            print("DatabaseManager.deleteFavoritePokemon : " + error.localizedDescription)
+            
+            return false
+        }
     }
     
 }

@@ -89,15 +89,29 @@ struct DetailPokemonView : View {
         }
         .onAppear {
             mViewModel.getPokemonSpecies(id: pokemon.id)
+            mViewModel.isFavoritePokemon(id: pokemon.id)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         .navigationTitle(pokemon.name.capitalizedSentence)
         .toolbar {
             Button {
-                
+                if mViewModel.isFavoritePokemon {
+                    mViewModel.deleteFavoritePokemon(id: pokemon.id)
+                } else {
+                    mViewModel.setFavoritePokemon(
+                        request: FavoritePokemonRequest(
+                            id: pokemon.id,
+                            name: pokemon.name,
+                            image: pokemon.image,
+                            about: pokemon.about,
+                            height: pokemon.height,
+                            weight: pokemon.weight
+                        )
+                    )
+                }
             } label: {
-                Image(systemName: "heart")
+                Image(systemName: mViewModel.isFavoritePokemon ? "heart.fill" : "heart")
             }
         }
         

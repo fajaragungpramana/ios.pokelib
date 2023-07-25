@@ -52,4 +52,21 @@ class FavoritePokemonRepositoryImpl : FavoritePokemonRepository {
         }
     }
     
+    func deletePokemonFavorite(id: Double) -> Observable<Bool> {
+        return Observable.create { observer in
+            let task = Task {
+                do {
+                    observer.on(.next(try self.mDatabaseManager.deleteFavoritePokemon(id: id)))
+                    observer.on(.completed)
+                } catch {
+                    observer.on(.error(error))
+                }
+            }
+            
+            return Disposables.create {
+                task.cancel()
+            }
+        }
+    }
+    
 }

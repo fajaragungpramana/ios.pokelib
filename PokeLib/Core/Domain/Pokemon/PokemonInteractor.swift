@@ -72,4 +72,8 @@ class PokemonInteractor : PokemonUseCase {
         return self.mFavoritePokemonRepository.isPokemonFavorite(id: id)
     }
     
+    func deleteFavoritePokemon(id: Double) -> Observable<Bool> {
+        return self.mFavoritePokemonRepository.deletePokemonFavorite(id: id)
+    }
+    
 }
