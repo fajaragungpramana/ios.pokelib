@@ -17,4 +17,23 @@ struct NameEntity : Codable {
         
         name = try? values.decode(String.self, forKey: .name)
     }
+    
+    func onMapStat() -> String {
+        switch name {
+        case "hp":
+            return "HP"
+        case "attack":
+            return "ATT"
+        case "defense":
+            return "DEF"
+        case "special-attack":
+            return "S-ATT"
+        case "special-defense":
+            return "S-DEF"
+        case "speed":
+            return "SDP"
+        default:
+            return "-"
+        }
+    }
 }

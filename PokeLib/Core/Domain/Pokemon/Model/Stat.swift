@@ -6,6 +6,6 @@
 //
 
 struct Stat {
-    var value: Int?
-    var name: String?
+    var value: Int
+    var name: String
 }
