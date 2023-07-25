@@ -23,4 +23,8 @@ class PokemonServiceImpl : PokemonService {
         return mAppService.request(PokemonRoute.getPokemon(id))
     }
     
+    func getPokemonSpecies(id: Double?) -> Observable<PokemonSpeciesEntity> {
+        return mAppService.request(PokemonRoute.getPokemonSpecies(id))
+    }
+    
 }
