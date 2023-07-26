@@ -10,4 +10,5 @@ enum DrawableResource : String {
     case profileBlack = "ic_profile_black"
     case rulerBlack = "ic_ruler_black"
     case weightBlack = "ic_weight_black"
+    case userProfile = "img_profile"
 }
