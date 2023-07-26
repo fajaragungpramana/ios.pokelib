@@ -46,6 +46,13 @@ Menerapkan Reactive Programming.
 - Boleh menggunakan RxSwift/Combine (<i>pilih salah satu</i>).
 - Menerapkan dengan tepat untuk mengambil data dari <i>network</i> dan <i>database</i>.
 
+## Preview
+<img src="https://github.com/fajaragungpramana/assets/blob/master/iOSPokeLib/Simulator%20Screen%20Shot%20-%20iPhone%2014%20-%202023-07-26%20at%2014.12.43.png" width="393" height="852">
+<img src="https://github.com/fajaragungpramana/assets/blob/master/iOSPokeLib/Simulator%20Screen%20Shot%20-%20iPhone%2014%20-%202023-07-26%20at%2014.12.48.png" width="393" height="852">
+<img src="https://github.com/fajaragungpramana/assets/blob/master/iOSPokeLib/Simulator%20Screen%20Shot%20-%20iPhone%2014%20-%202023-07-26%20at%2014.12.53.png" width="393" height="852">
+<img src="https://github.com/fajaragungpramana/assets/blob/master/iOSPokeLib/Simulator%20Screen%20Shot%20-%20iPhone%2014%20-%202023-07-26%20at%2014.12.57.png" width="393" height="852">
+<img src="https://github.com/fajaragungpramana/assets/blob/master/iOSPokeLib/Simulator%20Screen%20Shot%20-%20iPhone%2014%20-%202023-07-26%20at%2014.13.00.png" width="393" height="852">
+
 ## Lincense
 Copyright 2023 Fajar Agung Pramana
 
