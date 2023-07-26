@@ -11,10 +11,12 @@ import RxSwift
 class PokemonInteractor : PokemonUseCase {
     
     private let mPokemonRepository: PokemonRepository
+    private let mFavoritePokemonRepository: FavoritePokemonRepository
     private let mDisposeBag: DisposeBag
     
-    init(pokemonRepository: PokemonRepository, disposeBag: DisposeBag) {
+    init(pokemonRepository: PokemonRepository, favoritePokemonRepository: FavoritePokemonRepository, disposeBag: DisposeBag) {
         self.mPokemonRepository = pokemonRepository
+        self.mFavoritePokemonRepository = favoritePokemonRepository
         self.mDisposeBag = disposeBag
     }
     
@@ -54,12 +56,48 @@ class PokemonInteractor : PokemonUseCase {
                             observer.on(.error(error))
                         }
                     )
+                    .disposed(by: self.mDisposeBag)
             }
             
             return Disposables.create {
                 task.cancel()
             }
         }
+    }
+    
+    func setFavoritePokemon(request: FavoritePokemonRequest) -> Observable<Bool> {
+        return self.mFavoritePokemonRepository.setFavoritePokemon(request: request)
+    }
+    
+    func isFavoritePokemon(id: Double) -> Observable<Bool> {
+        return self.mFavoritePokemonRepository.isFavoritePokemon(id: id)
+    }
+    
+    func getListFavoritePokemon() -> Observable<[Pokemon]> {
+        return Observable.create { observer in
+            let task = Task {
+                self.mFavoritePokemonRepository.getListFavoritePokemon()
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(
+                        onNext: { listFavoritePokemonEntity in
+                            observer.on(.next(Pokemon.mapToListFavorite(data: listFavoritePokemonEntity)))
+                            observer.on(.completed)
+                        },
+                        onError: { error in
+                            observer.on(.error(error))
+                        }
+                    )
+                    .disposed(by: self.mDisposeBag)
+            }
+            
+            return Disposables.create {
+                task.cancel()
+            }
+        }
+    }
+    
+    func deleteFavoritePokemon(id: Double) -> Observable<Bool> {
+        return self.mFavoritePokemonRepository.deleteFavoritePokemon(id: id)
     }
     
 }
