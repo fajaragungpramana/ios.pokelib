@@ -11,7 +11,7 @@ struct DetailPokemonView : View {
     
     @Environment(\.presentationMode) private var mPresentationMode: Binding<PresentationMode>
     
-    @ObservedObject
+    @StateObject
     private var mViewModel: DetailPokemonViewModel = DetailPokemonViewModel()
 
     private var mFlexibleGridItems: [GridItem] = [
@@ -89,15 +89,40 @@ struct DetailPokemonView : View {
         }
         .onAppear {
             mViewModel.getPokemonSpecies(id: pokemon.id)
+            mViewModel.isFavoritePokemon(id: pokemon.id)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         .navigationTitle(pokemon.name.capitalizedSentence)
         .toolbar {
             Button {
-                
+                if mViewModel.isFavoritePokemon {
+                    mViewModel.deleteFavoritePokemon(id: pokemon.id)
+                } else {
+                    var listFavoriteStatRequest: [FavoriteStatRequest] = []
+                    pokemon.listStat.forEach { stat in
+                        listFavoriteStatRequest.append(
+                            FavoriteStatRequest(
+                                name: stat.name,
+                                value: stat.value
+                            )
+                        )
+                    }
+                    
+                    mViewModel.setFavoritePokemon(
+                        request: FavoritePokemonRequest(
+                            id: pokemon.id,
+                            name: pokemon.name,
+                            image: pokemon.image,
+                            about: pokemon.about,
+                            height: pokemon.height,
+                            weight: pokemon.weight,
+                            listStat: listFavoriteStatRequest
+                        )
+                    )
+                }
             } label: {
-                Image(systemName: "heart")
+                Image(systemName: mViewModel.isFavoritePokemon ? "heart.fill" : "heart")
             }
         }
         

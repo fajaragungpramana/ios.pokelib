@@ -13,5 +13,6 @@ target 'PokeLib' do
   pod 'RxCocoa'
   pod 'Swinject'
   pod 'SwiftLint'
+  pod 'SQLite.swift'
 
 end

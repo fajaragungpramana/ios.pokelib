@@ -1,23 +1,31 @@
 //
-//  PokemonView.swift
+//  FavoritePokemonView.swift
 //  PokeLib
 //
-//  Created by Fajar Agung Pramana on 17/07/23.
+//  Created by Fajar Agung Pramana on 25/07/23.
 //
 
 import SwiftUI
 
-struct PokemonView : View {
+struct FavoritePokemonView : View {
+    
+    @Environment(\.presentationMode) private var mPresentationMode: Binding<PresentationMode>
     
     @ObservedObject
-    private var mViewModel = PokemonViewModel()
-    
-    @State private var mIsDetailPokemonClick: Bool = false
+    private var mViewModel: FavoritePokemonViewModel = FavoritePokemonViewModel()
     
     private var mFlexibleGridItems: [GridItem] = [
         .init(.adaptive(minimum: 190, maximum: 360)),
         .init(.adaptive(minimum: 190, maximum: 360))
     ]
+    
+    var backButton: some View {
+        Button {
+            mPresentationMode.wrappedValue.dismiss()
+        } label: {
+            Image(systemName: "chevron.backward")
+        }
+    }
     
     var body: some View {
         
@@ -38,13 +46,19 @@ struct PokemonView : View {
             }
             
         }
+        .onAppear {
+            mViewModel.getListFavoritePokemon()
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
+        .navigationTitle("favorite")
         
     }
     
 }
 
-struct PokemonView_Previews : PreviewProvider {
+struct FavoritePokemonView_Previews : PreviewProvider {
     static var previews: some View {
-        PokemonView()
+        FavoritePokemonView()
     }
 }
