@@ -17,7 +17,10 @@ Remote Service :
 - Alamofire
 
 Local Service :
-- Room
+- SQLite.swift
+
+Reactive Service :
+- RxSwift
 
 Design :
 - Clean Architecture
