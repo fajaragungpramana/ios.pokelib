@@ -61,4 +61,54 @@ struct Pokemon {
         
         return listPokemon
     }
+    
+    static func mapToListFavorite(data: [FavoritePokemonEntity]?) -> [Pokemon] {
+        var listPokemon: [Pokemon] = []
+        guard let data = data else {
+            return []
+        }
+        
+        for i in 0...data.count - 1 {
+            let listFavoriteStat = data[i].listStat
+            
+            if listFavoriteStat.isEmpty {
+                listPokemon.append(
+                    Pokemon(
+                        id: data[i].id,
+                        name: data[i].name,
+                        image: data[i].image,
+                        about: data[i].about,
+                        height: data[i].height,
+                        weight: data[i].weight,
+                        listStat: []
+                    )
+                )
+            } else {
+                var listStat: [Stat] = []
+                for j in 0...listFavoriteStat.count - 1 {
+                    listStat.append(
+                        Stat(
+                            value: listFavoriteStat[j].value,
+                            name: listFavoriteStat[j].name
+                        )
+                    )
+                }
+                
+                listPokemon.append(
+                    Pokemon(
+                        id: data[i].id,
+                        name: data[i].name,
+                        image: data[i].image,
+                        about: data[i].about,
+                        height: data[i].height,
+                        weight: data[i].weight,
+                        listStat: listStat
+                    )
+                )
+            }
+            
+        }
+        
+        return listPokemon
+    }
 }

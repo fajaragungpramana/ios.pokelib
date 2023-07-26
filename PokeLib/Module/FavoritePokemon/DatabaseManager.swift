@@ -97,6 +97,53 @@ class DatabaseManager {
         return true
     }
     
+    func getListFavoritePokemon() throws -> [FavoritePokemonEntity] {
+        var listFavoritePokemonEntity: [FavoritePokemonEntity] = []
+        
+        do {
+            
+            for pokemon in try self.mDb.prepare(self.mFavoritePokemonTable) {
+                var favoritePokemonEntity = FavoritePokemonEntity(
+                    id: 0,
+                    name: "",
+                    image: "",
+                    about: "",
+                    height: 0,
+                    weight: 0,
+                    listStat: []
+                )
+                
+                favoritePokemonEntity.id = pokemon[self.mFavoritePokemonSchema.id]
+                favoritePokemonEntity.name = pokemon[self.mFavoritePokemonSchema.name]
+                favoritePokemonEntity.image = pokemon[self.mFavoritePokemonSchema.image]
+                favoritePokemonEntity.about = pokemon[self.mFavoritePokemonSchema.about]
+                favoritePokemonEntity.height = pokemon[self.mFavoritePokemonSchema.height]
+                favoritePokemonEntity.weight = pokemon[self.mFavoritePokemonSchema.weight]
+                
+                let queryStat = self.mFavoriteStatTable.filter(self.mFavoriteStatSchema.pokemonId == favoritePokemonEntity.id)
+                
+                var listFavoriteStatEntity: [FavoriteStatEntity] = []
+                for stat in try self.mDb.prepare(queryStat) {
+                    listFavoriteStatEntity.append(
+                        FavoriteStatEntity(
+                            name: stat[self.mFavoriteStatSchema.name],
+                            value: stat[self.mFavoriteStatSchema.value]
+                        )
+                    )
+                }
+                
+                favoritePokemonEntity.listStat = listFavoriteStatEntity
+                
+                listFavoritePokemonEntity.append(favoritePokemonEntity)
+            }
+            
+        } catch {
+            print("DatabaseManager.getListFavoritePokemon : " + error.localizedDescription)
+        }
+        
+        return listFavoritePokemonEntity
+    }
+    
     func getFavoritePokemon(id: Double) throws -> [FavoritePokemonEntity] {
         var listFavoritePokemonEntity: [FavoritePokemonEntity] = []
         let query = self.mFavoritePokemonTable.filter(self.mFavoritePokemonSchema.id == id)
@@ -109,7 +156,8 @@ class DatabaseManager {
                     image: pokemon[self.mFavoritePokemonSchema.image],
                     about: pokemon[self.mFavoritePokemonSchema.about],
                     height: pokemon[self.mFavoritePokemonSchema.height],
-                    weight: pokemon[self.mFavoritePokemonSchema.weight]
+                    weight: pokemon[self.mFavoritePokemonSchema.weight],
+                    listStat: []
                 ))
             }
             

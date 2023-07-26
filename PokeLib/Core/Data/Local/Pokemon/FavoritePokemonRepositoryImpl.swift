@@ -15,7 +15,7 @@ class FavoritePokemonRepositoryImpl : FavoritePokemonRepository {
         self.mDatabaseManager = databaseManager
     }
     
-    func setPokemonFavorite(request: FavoritePokemonRequest) -> Observable<Bool> {
+    func setFavoritePokemon(request: FavoritePokemonRequest) -> Observable<Bool> {
         return Observable.create { observer in
             let task = Task {
                 do {
@@ -33,7 +33,7 @@ class FavoritePokemonRepositoryImpl : FavoritePokemonRepository {
         }
     }
     
-    func isPokemonFavorite(id: Double) -> Observable<Bool> {
+    func isFavoritePokemon(id: Double) -> Observable<Bool> {
         return Observable.create { observer in
             let task = Task {
                 do {
@@ -52,7 +52,24 @@ class FavoritePokemonRepositoryImpl : FavoritePokemonRepository {
         }
     }
     
-    func deletePokemonFavorite(id: Double) -> Observable<Bool> {
+    func getListFavoritePokemon() -> Observable<[FavoritePokemonEntity]> {
+        return Observable.create { observer in
+            let task = Task {
+                do {
+                    observer.on(.next(try self.mDatabaseManager.getListFavoritePokemon()))
+                    observer.on(.completed)
+                } catch {
+                    observer.on(.error(error))
+                }
+            }
+            
+            return Disposables.create {
+                task.cancel()
+            }
+        }
+    }
+    
+    func deleteFavoritePokemon(id: Double) -> Observable<Bool> {
         return Observable.create { observer in
             let task = Task {
                 do {

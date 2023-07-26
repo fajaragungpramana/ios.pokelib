@@ -11,6 +11,14 @@ struct FavoritePokemonView : View {
     
     @Environment(\.presentationMode) private var mPresentationMode: Binding<PresentationMode>
     
+    @ObservedObject
+    private var mViewModel: FavoritePokemonViewModel = FavoritePokemonViewModel()
+    
+    private var mFlexibleGridItems: [GridItem] = [
+        .init(.adaptive(minimum: 190, maximum: 360)),
+        .init(.adaptive(minimum: 190, maximum: 360))
+    ]
+    
     var backButton: some View {
         Button {
             mPresentationMode.wrappedValue.dismiss()
@@ -21,7 +29,21 @@ struct FavoritePokemonView : View {
     
     var body: some View {
         
-        VStack {
+        ScrollView(.vertical, showsIndicators: false) {
+            
+            LazyVGrid(columns: mFlexibleGridItems) {
+                
+                ForEach(self.mViewModel.listPokemon, id: \.id) { pokemon in
+                    
+                    NavigationLink {
+                        DetailPokemonView(pokemon: pokemon)
+                    } label: {
+                        PokemonAdapterView(pokemon: pokemon)
+                    }
+                    
+                }
+                
+            }
             
         }
         .navigationBarBackButtonHidden(true)

@@ -12,5 +12,6 @@ protocol PokemonUseCase {
     func getPokemonSpecies(id: Double?) -> Observable<PokemonSpecies>
     func setFavoritePokemon(request: FavoritePokemonRequest) -> Observable<Bool>
     func isFavoritePokemon(id: Double) -> Observable<Bool>
+    func getListFavoritePokemon() -> Observable<[Pokemon]>
     func deleteFavoritePokemon(id: Double) -> Observable<Bool>
 }

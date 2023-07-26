@@ -8,7 +8,8 @@
 import RxSwift
 
 protocol FavoritePokemonRepository {
-    func setPokemonFavorite(request: FavoritePokemonRequest) -> Observable<Bool>
-    func isPokemonFavorite(id: Double) -> Observable<Bool>
-    func deletePokemonFavorite(id: Double) -> Observable<Bool>
+    func setFavoritePokemon(request: FavoritePokemonRequest) -> Observable<Bool>
+    func isFavoritePokemon(id: Double) -> Observable<Bool>
+    func getListFavoritePokemon() -> Observable<[FavoritePokemonEntity]>
+    func deleteFavoritePokemon(id: Double) -> Observable<Bool>
 }

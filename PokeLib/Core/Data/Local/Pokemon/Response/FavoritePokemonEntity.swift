@@ -12,4 +12,5 @@ struct FavoritePokemonEntity {
     var about: String
     var height: Int
     var weight: Int
+    var listStat: [FavoriteStatEntity]
 }
