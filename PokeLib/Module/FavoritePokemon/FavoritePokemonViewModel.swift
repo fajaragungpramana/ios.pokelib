@@ -27,11 +27,7 @@ class FavoritePokemonViewModel : ObservableObject {
         }
     }
     
-    init() {
-        getListFavoritePokemon()
-    }
-    
-    private func getListFavoritePokemon() {
+    func getListFavoritePokemon() {
         _isLoadingFavoritePokemon = true
         mPokemonUseCase.getListFavoritePokemon()
             .observe(on: MainScheduler.instance)

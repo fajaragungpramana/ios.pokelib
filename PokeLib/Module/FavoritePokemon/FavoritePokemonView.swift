@@ -46,6 +46,9 @@ struct FavoritePokemonView : View {
             }
             
         }
+        .onAppear {
+            mViewModel.getListFavoritePokemon()
+        }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         .navigationTitle("favorite")

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlamofireNetworkActivityLogger
 
 struct MainView : View {
     
@@ -42,6 +43,10 @@ struct MainView : View {
                         self.mSelectedTab = 2
                     }
                 
+            }
+            .onAppear {
+                NetworkActivityLogger.shared.level = .debug
+                NetworkActivityLogger.shared.startLogging()
             }
             .navigationBarTitle(mSelectedTab == 1 ? "pokemon" : "profile", displayMode: .inline)
             .toolbar {

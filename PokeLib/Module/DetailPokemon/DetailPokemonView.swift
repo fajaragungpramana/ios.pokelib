@@ -11,7 +11,7 @@ struct DetailPokemonView : View {
     
     @Environment(\.presentationMode) private var mPresentationMode: Binding<PresentationMode>
     
-    @ObservedObject
+    @StateObject
     private var mViewModel: DetailPokemonViewModel = DetailPokemonViewModel()
 
     private var mFlexibleGridItems: [GridItem] = [

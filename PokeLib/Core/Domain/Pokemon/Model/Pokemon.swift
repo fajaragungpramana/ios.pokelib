@@ -62,9 +62,9 @@ struct Pokemon {
         return listPokemon
     }
     
-    static func mapToListFavorite(data: [FavoritePokemonEntity]?) -> [Pokemon] {
+    static func mapToListFavorite(data: [FavoritePokemonEntity]) -> [Pokemon] {
         var listPokemon: [Pokemon] = []
-        guard let data = data else {
+        if data.isEmpty {
             return []
         }
         

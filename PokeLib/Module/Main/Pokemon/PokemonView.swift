@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AlamofireNetworkActivityLogger
 
 struct PokemonView : View {
     
@@ -38,10 +37,6 @@ struct PokemonView : View {
                 
             }
             
-        }
-        .onAppear {
-            NetworkActivityLogger.shared.level = .debug
-            NetworkActivityLogger.shared.startLogging()
         }
         
     }
