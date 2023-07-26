@@ -34,6 +34,7 @@ final class AppModule {
         
         // MARK: Common
         container.register(AppService.self) { _ in AppService() }
+        container.register(DatabaseManager.self) { _ in DatabaseManager() }
         container.register(DisposeBag.self) { _ in DisposeBag() }
         
         // MARK: Service
@@ -48,11 +49,17 @@ final class AppModule {
                 disposeBag: r.resolve(DisposeBag.self)!
             )
         }
+        container.register(FavoritePokemonRepository.self) { r in
+            FavoritePokemonRepositoryImpl(
+                databaseManager: r.resolve(DatabaseManager.self)!
+            )
+        }
         
         // MARK: Domain
         container.register(PokemonUseCase.self) { r in
             PokemonInteractor(
                 pokemonRepository: r.resolve(PokemonRepository.self)!,
+                favoritePokemonRepository: r.resolve(FavoritePokemonRepository.self)!,
                 disposeBag: r.resolve(DisposeBag.self)!
             )
         }
